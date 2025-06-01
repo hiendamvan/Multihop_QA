@@ -1,10 +1,14 @@
 from langchain_community.retrievers import BM25Retriever
 from langchain_core.documents import Document
-from langchain.chains import LLMChain
 from langchain_cohere import ChatCohere
 from langchain.prompts import PromptTemplate
-from langchain.prompts import PromptTemplate
+from langchain_chroma import Chroma
+from langchain.retrievers import EnsembleRetriever
+from langchain.embeddings import HuggingFaceEmbeddings
+import os
 import json
+from tqdm import tqdm
+import time
 
 from dotenv import load_dotenv
 import os
@@ -40,10 +44,10 @@ subq_chain = subq_prompt | llm
 
 # Reasoning chain
 reasoning_prompt = PromptTemplate.from_template(
-    "We are answering: '{orig_question}'\n"
-    "Given the current sub-question: '{sub_question}'\n"
-    "And the retrieved context:\n{context}\n\n"
-    "What information should we retrieve information from corpus?"
+    "Original question: '{orig_question}'\n"
+    "Current sub-question: '{sub_question}'\n"
+    "retrieved context:\n{context}\n\n"
+    "What should the next sub-question be, or should we attempt to answer the original question now?"
 )
 
 reasoning_chain = reasoning_prompt | llm
@@ -60,12 +64,38 @@ final_prompt = PromptTemplate.from_template(
 )
 final_chain = final_prompt | llm
 
-# create retriever, return 2 most relevant document
-retriever = BM25Retriever.from_documents(docs)
-retriever.k = 5
+# create hybrid retriever
+bm25 = BM25Retriever.from_documents(docs)
+bm25.k = 4
 
+# 2. Khởi tạo embedding model (ví dụ Hugging Face)
+embedding = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+)
 
-def ircot_multihop(query, max_hops=2):
+# 3. Chia nhỏ docs thành các batch (nếu chưa có vectorstore)
+def chunk_docs(docs, chunk_size):
+    for i in range(0, len(docs), chunk_size):
+        yield docs[i:i + chunk_size]
+
+# 4. Tạo hoặc load Chroma vectorstore (dùng FAISS ngầm)
+persist_directory = "./chroma_db"
+chunk_size = 100
+
+if os.path.exists(persist_directory) and len(os.listdir(persist_directory)) > 0:
+    vector_store = Chroma(persist_directory=persist_directory, embedding_function=embedding)
+else:
+    print("⚙️ Generating and storing embeddings into vector store ...")
+    vector_store = Chroma(persist_directory=persist_directory, embedding_function=embedding)
+    for batch in tqdm(chunk_docs(docs, chunk_size)):
+        vector_store.add_documents(batch)
+    print("✅ Done embedding and saving.")
+    
+dense = vector_store.as_retriever(search_kwargs={'k':4})
+
+retriever = EnsembleRetriever(retrievers=[bm25, dense], weights=[0.5, 0.5])
+
+def ircot_multihop(query, max_hops=3):
     history = []
     current_query = query
 
@@ -121,5 +151,5 @@ for i in range(len(data)):
     question_types.append(data[i]['question_type'])
     answers.append(data[i]['answer'])
 
-ircot_multihop(questions[2])
-print("Ground truth answer", answers[2])
+ircot_multihop(questions[5])
+print("Ground truth answer", answers[5])
