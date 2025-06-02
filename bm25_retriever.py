@@ -1,6 +1,8 @@
 import os
 import json
+import re 
 from tqdm import tqdm
+from typing import List, Tuple
 from dotenv import load_dotenv
 from langchain_community.retrievers import BM25Retriever
 from langchain_core.documents import Document
@@ -8,7 +10,7 @@ from langchain_cohere import ChatCohere
 from langchain.prompts import PromptTemplate
 from langchain_chroma import Chroma
 from langchain.retrievers import EnsembleRetriever
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 # --- Initialization & Setup ---
 
@@ -123,6 +125,38 @@ def create_hybrid_retriever(docs: list[Document], persist_directory: str = "./ch
     
     return ensemble_retriever
 
+# Normalize answer and query for evaluation 
+
+def normalize_answer(s: str) -> str:
+    """Chuẩn hóa câu trả lời: viết thường, loại bỏ dấu câu, khoảng trắng"""
+    def remove_articles(text):
+        return re.sub(r'\b(a|an|the)\b', ' ', text)
+    def white_space_fix(text):
+        return ' '.join(text.split())
+    def remove_punc(text):
+        return re.sub(r'[^\w\s]', '', text)
+    def lower(text):
+        return text.lower()
+
+    return white_space_fix(remove_articles(remove_punc(lower(s))))
+
+# Evaluation: F1-score between predicted answer and ground truth 
+
+def compute_f1_score(prediction: str, ground_truth: str) -> float:
+    pred_tokens = normalize_answer(prediction).split()
+    gt_tokens = normalize_answer(ground_truth).split()
+    
+    common = set(pred_tokens) & set(gt_tokens)
+    
+    if(len(common) == 0):
+        return 0.0 
+    
+    precision = len(common) / len(pred_tokens)
+    recall = len(common) / len(gt_tokens)
+    f1_score = 2 * precision * recall / (precision + recall)
+    
+    return f1_score
+
 # --- Main Execution Flow ---
 
 def run_ircot_multihop(query: str, retriever: EnsembleRetriever, chains: tuple, max_hops: int = 3) -> str:
@@ -135,14 +169,14 @@ def run_ircot_multihop(query: str, retriever: EnsembleRetriever, chains: tuple, 
     current_query = query
 
     for hop in range(max_hops):
-        print(f"\n➡️ Hop {hop+1}: Reasoning on '{current_query}'")
+        #print(f"\n➡️ Hop {hop+1}: Reasoning on '{current_query}'")
 
         # Step 1: Generate a sub-question
         subq = subq_chain.invoke({"question": current_query}).content.strip()
-        print(f"🧠 Sub-question: {subq}")
+        #print(f"🧠 Sub-question: {subq}")
 
         # Step 2: Retrieve relevant documents for the sub-question
-        retrieved_docs = retriever.get_relevant_documents(subq)
+        retrieved_docs = retriever.invoke(subq)
         context = "\n\n".join([d.page_content for d in retrieved_docs])
         
         # Step 3: Reason about the next step or decide to answer
@@ -171,7 +205,7 @@ def run_ircot_multihop(query: str, retriever: EnsembleRetriever, chains: tuple, 
         "history": hist_text
     }).content.strip()
 
-    print("\n✅ Final Answer:", final_answer)
+    #print("\n✅ Final Answer:", final_answer)
     return final_answer
 
 
@@ -190,15 +224,20 @@ if __name__ == "__main__":
     hybrid_retriever = create_hybrid_retriever(documents)
     all_chains = create_chains(llm)
 
-    # 4. Run the process on a sample question
-    sample_index = 5
-    query = questions[sample_index]
-    ground_truth = answers[sample_index]
-    
-    print(f"❓ Query: {query}")
-    predicted_answer = run_ircot_multihop(
-        query=query, 
-        retriever=hybrid_retriever, 
-        chains=all_chains
-    )
-    print("🎯 Ground truth answer:", ground_truth)
+    f1_scores = []
+    # 4. Test with 100 questions
+    for i in range(100):
+        query = questions[i]
+        ground_truth = answers[i]
+        
+        #print(f"❓ Query: {query}")
+        predicted_answer = run_ircot_multihop(
+            query=query, 
+            retriever=hybrid_retriever, 
+            chains=all_chains
+        )
+        #print("🎯 Ground truth answer:", ground_truth)
+        f1_scores.append(compute_f1_score(predicted_answer, ground_truth))
+        print(f'✅ Question {i} done.')
+    avg = sum(f1_scores) / len(f1_scores)
+    print(f"Average F1-score: {avg:.2f}")
