@@ -78,12 +78,13 @@ def create_chains(llm):
     # Chain to generate the final answer based on the conversation history
     final_prompt = PromptTemplate.from_template(
         "We are answering the question: '{question}'.\n"
-        "We have gone through the following steps:\n"
+        "We have gone through the following reasoning and retrieved steps:\n"
         "{history}\n"
-        "Based on the above reasoning and retrieved context, answer directly, dont need to explain.\n"
-        "For example, if the question is Who is the author of Gone with the wind?. The answer is only: Margaret Mitchell\n"
-        "If the question is Yes/ No question, just answer Yes or no\n"
-        "If there isn't sufficient information, just answer Insufficient information."
+        "Based on the above reasoning and retrieved context, provide the final answer concisely and directly.\n"
+        "- If the question is factual (e.g Who is the author of Gone with the wind?), response with only the answer(e.g Margaret Mitchell)\n"
+        "- If the question is Yes/ No question, just answer Yes or no\n"
+        "- If the information is insufficient to answer, response with: 'Insufficient information'."
+        "**Do not explain your reasoning or repeat the question.**"
     )
     final_chain = final_prompt | llm
     
@@ -113,7 +114,7 @@ def create_hybrid_retriever(docs: list[Document], persist_directory: str = "./ch
         )
         print("✅ Done embedding and saving.")
     
-    dense_retriever = vector_store.as_retriever(search_kwargs={'k': 4}) # Retrieve top 4 results
+    dense_retriever = vector_store.as_retriever(search_kwargs={'k': 3}) # Retrieve top 4 results
 
     # 3. Create the Ensemble Retriever to combine both sparse and dense results
     ensemble_retriever = EnsembleRetriever(
@@ -171,11 +172,12 @@ def run_ircot_multihop(query: str, retriever: EnsembleRetriever, chains: tuple, 
 
         # Step 1: Generate a sub-question
         subq = subq_chain.invoke({"question": current_query}).content.strip()
-        #print(f"🧠 Sub-question: {subq}")
+        print(f"🧠 Sub-question: {subq}")
 
         # Step 2: Retrieve relevant documents for the sub-question
         retrieved_docs = retriever.invoke(subq)
         context = "\n\n".join([d.page_content for d in retrieved_docs])
+        print(f"📄 Retrieved context:\n{context}...")  # Print first 500 chars of context
         
         # Step 3: Reason about the next step or decide to answer
         next_query = reasoning_chain.invoke({
@@ -224,7 +226,7 @@ if __name__ == "__main__":
 
     f1_scores = []
     # 4. Test with 100 questions
-    for i in range(53,55):
+    for i in range(54,55):
         query = questions[i]
         ground_truth = normalize_answer(answers[i])
         
