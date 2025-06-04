@@ -6,7 +6,7 @@ from typing import List, Tuple
 from dotenv import load_dotenv
 from langchain_community.retrievers import BM25Retriever
 from langchain_core.documents import Document
-from langchain_cohere import ChatCohere
+from langchain_openai import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from langchain_chroma import Chroma
 from langchain.retrievers import EnsembleRetriever
@@ -17,10 +17,8 @@ from langchain_huggingface import HuggingFaceEmbeddings
 def initialize_app():
     """Loads environment variables and initializes the language model."""
     load_dotenv()
-    llm = ChatCohere(
-        cohere_api_key=os.getenv('COHERE_API_KEY'), 
-        model='command-r-plus'
-    )
+    llm = ChatOpenAI(model= 'gpt-4.1-nano', 
+                    openai_api_key=os.getenv('') )
     return llm
 
 # --- Data Processing ---
@@ -95,7 +93,7 @@ def create_hybrid_retriever(docs: list[Document], persist_directory: str = "./ch
     """Creates a hybrid retriever combining BM25 and an embedding-based search (Chroma)."""
     # 1. Setup BM25 (Sparse Retriever) for keyword-based search
     bm25_retriever = BM25Retriever.from_documents(docs)
-    bm25_retriever.k = 4 # Retrieve top 4 results
+    bm25_retriever.k = 3 # Retrieve top 4 results
 
     # 2. Setup Chroma (Dense Retriever) for semantic search
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
@@ -218,7 +216,7 @@ if __name__ == "__main__":
 
     # 2. Load and prepare data
     documents = load_corpus("dataset/multihoprag_corpus.txt")
-    questions, answers, _ = load_qa_dataset('dataset/MultiHopRAG.json')
+    questions, answers, question_types = load_qa_dataset('dataset/MultiHopRAG.json')
 
     # 3. Create the retriever and processing chains
     hybrid_retriever = create_hybrid_retriever(documents)
@@ -226,9 +224,9 @@ if __name__ == "__main__":
 
     f1_scores = []
     # 4. Test with 100 questions
-    for i in range(100):
+    for i in range(53,55):
         query = questions[i]
-        ground_truth = answers[i]
+        ground_truth = normalize_answer(answers[i])
         
         #print(f"❓ Query: {query}")
         predicted_answer = run_ircot_multihop(
@@ -236,8 +234,13 @@ if __name__ == "__main__":
             retriever=hybrid_retriever, 
             chains=all_chains
         )
+        predicted_answer = normalize_answer(predicted_answer)
         #print("🎯 Ground truth answer:", ground_truth)
         f1_scores.append(compute_f1_score(predicted_answer, ground_truth))
+        if(normalize_answer(predicted_answer) !=  normalize_answer(ground_truth)):
+            print(f'Question {i} false, question type is {question_types[i]}.')
+            print('Predicted answer:', predicted_answer)
+            print('Ground truth:', ground_truth)
         print(f'✅ Question {i} done.')
     avg = sum(f1_scores) / len(f1_scores)
     print(f"Average F1-score: {avg:.2f}")

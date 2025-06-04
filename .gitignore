@@ -1,3 +1,4 @@
 venv/
 .env
 chroma_db/
+COHERE_API_KEY="KlDBYOuQNxjs2jMjuizZa5GLoa5K17fjmRbyPf33"
