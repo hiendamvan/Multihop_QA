@@ -4,6 +4,7 @@ import re
 from tqdm import tqdm
 from typing import List, Tuple
 from dotenv import load_dotenv
+import streamlit as st
 from langchain_community.retrievers import BM25Retriever
 from langchain_core.documents import Document
 from langchain_openai import ChatOpenAI
@@ -210,45 +211,87 @@ def run_ircot_multihop(query: str, retriever: EnsembleRetriever, chains: tuple, 
 
 # --- Main Execution Block ---
 
-# This block will only run when the script is executed directly
-if __name__ == "__main__":
-    # 1. Initialize the application (LLM)
-    llm = initialize_app()
+def main():
+    """Hàm chính để chạy ứng dụng Streamlit."""
+    st.set_page_config(page_title="Hỏi-Đáp Multi-hop", layout="wide")
+    st.title("Hệ thống Hỏi-Đáp Multi-hop �")
+    st.markdown("Nhập một câu hỏi phức tạp để hệ thống phân rã, truy xuất và trả lời.")
 
-    # 2. Load and prepare data
-    documents = load_corpus("dataset/multihoprag_corpus.txt")
-    questions, answers, question_types = load_qa_dataset('dataset/MultiHopRAG.json')
+    # Sử dụng cache của Streamlit để tránh tải lại tài nguyên tốn kém
+    @st.cache_resource
+    def load_resources():
+        llm = initialize_app()
+        documents = load_corpus("dataset/multihoprag_corpus.txt")
+        retriever = create_hybrid_retriever(documents)
+        chains = create_chains(llm)
+        return llm, retriever, chains
 
-    # 3. Create the retriever and processing chains
-    hybrid_retriever = create_hybrid_retriever(documents)
-    all_chains = create_chains(llm)
+    try:
+        llm, hybrid_retriever, all_chains = load_resources()
 
-    f1_scores = []
-    false_question = []
-    # 4. Test with 100 questions
-    for i in range(100,200):
-        query = questions[i]
-        ground_truth = normalize_answer(answers[i])
-        
-        #print(f"❓ Query: {query}")
-        predicted_answer = run_ircot_multihop(
-            query=query, 
-            retriever=hybrid_retriever, 
-            chains=all_chains
-        )
-        predicted_answer = normalize_answer(predicted_answer)
-        #print("🎯 Ground truth answer:", ground_truth)
-        
-        f1_scores.append(compute_f1_score(predicted_answer, ground_truth))
-        if(normalize_answer(predicted_answer) !=  normalize_answer(ground_truth)):
-            print(f'Question {i} false, question type is {question_types[i]}.')
-            print('Predicted answer:', predicted_answer)
-            print('Ground truth:', ground_truth)
-            false_question.append([i, question_types[i], query, predicted_answer, ground_truth])
-        print(f'✅ Question {i} done.')
+        user_query = st.text_input("Nhập câu hỏi của bạn tại đây:", "", placeholder="Ví dụ: Ai là đạo diễn của bộ phim có sự tham gia của nam diễn viên trong The Matrix?")
+
+        if st.button("Tìm câu trả lời", type="primary"):
+            if user_query:
+                with st.spinner("Hệ thống đang suy luận và tìm kiếm..."):
+                    predicted_answer = run_ircot_multihop(
+                        query=user_query,
+                        retriever=hybrid_retriever,
+                        chains=all_chains
+                    )
+                st.success("**Câu trả lời:**")
+                st.markdown(f"> {predicted_answer}")
+            else:
+                st.warning("Vui lòng nhập một câu hỏi.")
     
-    avg = sum(f1_scores) / len(f1_scores)
-    print(f"Average F1-score: {avg:.2f}")
-    #save false questions to a file
-    with open('false_questions.json', 'w', encoding='utf-8') as f:
-        json.dump(false_question, f, ensure_ascii=False, indent=4)
+    except FileNotFoundError:
+        st.error("Lỗi: Không tìm thấy tệp `dataset/multihoprag_corpus.txt`. Hãy đảm bảo tệp tồn tại trong đúng thư mục.")
+    except Exception as e:
+        st.error(f"Đã xảy ra lỗi: {e}")
+        st.info("Hãy kiểm tra xem bạn đã thiết lập OPENAI_API_KEY trong tệp .env chưa.")
+
+
+if __name__ == "__main__":
+    main()
+# This block will only run when the script is executed directly
+# if __name__ == "__main__":
+    # 1. Initialize the application (LLM)
+    # llm = initialize_app()
+
+    # # 2. Load and prepare data
+    # documents = load_corpus("dataset/multihoprag_corpus.txt")
+    # questions, answers, question_types = load_qa_dataset('dataset/MultiHopRAG.json')
+
+    # # 3. Create the retriever and processing chains
+    # hybrid_retriever = create_hybrid_retriever(documents)
+    # all_chains = create_chains(llm)
+
+    # f1_scores = []
+    # false_question = []
+    # # 4. Test with 100 questions
+    # for i in range(100,200):
+    #     query = questions[i]
+    #     ground_truth = normalize_answer(answers[i])
+        
+    #     #print(f"❓ Query: {query}")
+    #     predicted_answer = run_ircot_multihop(
+    #         query=query, 
+    #         retriever=hybrid_retriever, 
+    #         chains=all_chains
+    #     )
+    #     predicted_answer = normalize_answer(predicted_answer)
+    #     #print("🎯 Ground truth answer:", ground_truth)
+        
+    #     f1_scores.append(compute_f1_score(predicted_answer, ground_truth))
+    #     if(normalize_answer(predicted_answer) !=  normalize_answer(ground_truth)):
+    #         print(f'Question {i} false, question type is {question_types[i]}.')
+    #         print('Predicted answer:', predicted_answer)
+    #         print('Ground truth:', ground_truth)
+    #         false_question.append([i, question_types[i], query, predicted_answer, ground_truth])
+    #     print(f'✅ Question {i} done.')
+    
+    # avg = sum(f1_scores) / len(f1_scores)
+    # print(f"Average F1-score: {avg:.2f}")
+    # #save false questions to a file
+    # with open('false_questions.json', 'w', encoding='utf-8') as f:
+    #     json.dump(false_question, f, ensure_ascii=False, indent=4)
