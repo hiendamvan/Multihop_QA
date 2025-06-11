@@ -1,0 +1,401 @@
+[
+    [
+        100,
+        "comparison_query",
+        "Does the 'Fortune' article suggest that 'Fifth Third 1.67% Card' holders can redeem points for statement credits in the same way that 'Fortune' indicates 'American Express Cash Magnet® cardholders' can redeem cash back rewards for statement credits?",
+        "insufficient information",
+        "yes"
+    ],
+    [
+        101,
+        "temporal_query",
+        "Between the TechCrunch report on Meta's moderation bias problem suppressing Palestinian voices published on October 19, 2023, and the TechCrunch report on Meta's perfect compliance with the Children’s Online Privacy Protection Act published on November 27, 2023, was there a change in the nature of issues reported concerning Meta's platform practices?",
+        "yes",
+        "no"
+    ],
+    [
+        106,
+        "null_query",
+        "Considering the information from an article in The New York Times and another in The Wall Street Journal about Stephen G. Wozniak, what single letter represents the first initial of the university that Wozniak attended, which was also mentioned as the place where he delivered a keynote speech on innovation and technology in the second article?",
+        "c",
+        "insufficient information"
+    ],
+    [
+        109,
+        "null_query",
+        "Considering the information from a Forbes article detailing the latest product launch of Beats by Dre and a Wall Street Journal report on the company's financial performance in the last quarter, which single character from the Forbes article's mentioned product name is also used to denote the percentage increase in revenue highlighted in the Wall Street Journal article?",
+        "k",
+        "insufficient information"
+    ],
+    [
+        110,
+        "null_query",
+        "Considering the analysis from an article by the BBC and the strategic forecast presented by CNN, which country, identified as a rising regional power in the BBC article and predicted to increase its defense spending according to CNN, has a single-letter stock market index symbol?",
+        "egypt",
+        "insufficient information"
+    ],
+    [
+        111,
+        "inference_query",
+        "Which NFL player, who has been reported by The New York Times to have amassed over 800 receiving yards in just six games, is discussed by CBSSports.com as needing to average almost 153 yards in his final three games to meet a personal goal, yet is also considered by Sporting News to be at a disadvantage due to the strong pass defenses of his team's upcoming opponents?",
+        "justin jefferson",
+        "tyreek hill"
+    ],
+    [
+        112,
+        "null_query",
+        "Considering an article from The New York Times discussing Ron DeSantis's stance on education policy and another from The Washington Post detailing his potential strategies for the 2024 presidential race, what is the first letter of the state that DeSantis governs?",
+        "florida",
+        "insufficient information"
+    ],
+    [
+        114,
+        "null_query",
+        "Considering the information from a Bloomberg article discussing JPMorgan Chase & Co.'s strategic investments in fintech and a Reuters report on the bank's expansion plans in Asia, what is the first letter of the Asian country where JPMorgan intends to increase its presence and is also the location of a significant fintech company they have invested in?",
+        "j",
+        "insufficient information"
+    ],
+    [
+        115,
+        "inference_query",
+        "What company, featured in articles from both The Verge and TechCrunch, is responsible for ranking local search results, recently showcased new hardware developments at an annual event, and has been accused in a class action antitrust suit of harming news publishers' bottom lines?",
+        "microsoft",
+        "google"
+    ],
+    [
+        120,
+        "temporal_query",
+        "Did The Age report on November 7, 2023, contradict the allegations of Donald Trump's financial misrepresentations after the report by Fortune on September 26, 2023, claiming Donald Trump inflated the value of his Trump Tower apartment?",
+        "insufficient information",
+        "no"
+    ],
+    [
+        121,
+        "inference_query",
+        "Which company, covered by TechCrunch for its ability to construct new factories, also offers a two-pack of USB-C-to-USB-C cables as noted by Polygon, introduced invite-only deals during Prime Day as reported by Wired, and is considered by sellers featured on Cnbc | World Business News Leader to provide a life-changing opportunity through its platform?",
+        "insufficient information",
+        "amazon"
+    ],
+    [
+        122,
+        "null_query",
+        "Considering the information from a BBC article detailing Craig Revel Horwood's involvement in a charity event and a Guardian piece discussing his critique of a dance performance on a popular TV show, which letter would represent the initial of a contestant's first name who was praised by Horwood for their improvement at the charity event and also received a notably harsh critique for their samba on the TV show?",
+        "l",
+        "insufficient information"
+    ],
+    [
+        124,
+        "temporal_query",
+        "Between the TechCrunch report on the Google antitrust case published on October 31, 2023, and the TechCrunch report on the class action antitrust suit against Google published on December 15, 2023, was there a consistency in reporting Google's anticompetitive practices?",
+        "insufficient information",
+        "yes"
+    ],
+    [
+        125,
+        "null_query",
+        "Considering the information from an article by The New York Times and another by The Guardian on Shubha Satheesh, which university did she attend for her undergraduate studies, which is also known for its significant research contributions in the field of quantum computing?",
+        "mit",
+        "insufficient information"
+    ],
+    [
+        128,
+        "null_query",
+        "Based on a report by Bloomberg and a separate article by Reuters, what is the first letter of the name of the company that ACI Worldwide Inc. is reportedly in advanced talks to acquire, which also recently partnered with a major European bank to enhance its payment solutions?",
+        "t",
+        "insufficient information"
+    ],
+    [
+        130,
+        "comparison_query",
+        "Does the TechCrunch coverage of Sam Bankman-Fried's legal situation agree on the number of fraud and conspiracy charges he is facing, or is there a discrepancy between the articles?",
+        "insufficient information",
+        "agree"
+    ],
+    [
+        132,
+        "comparison_query",
+        "Did the CBSSports.com article report Kenneth Walker III remaining healthy and uninjured during a game, similarly to how the Sporting News article reports injuries for Tee Higgins, Noah Brown, Treylon Burks, and Kadarius Toney preventing their participation in Week 12?",
+        "yes",
+        "no"
+    ],
+    [
+        133,
+        "comparison_query",
+        "Does 'The Independent - Life and Style' article suggest that Taylor Swift is secretive about her relationship with Travis Kelce, while the 'FOX News - Lifestyle' article indicates that she engaged with a viral TikTok video, and does the other 'The Independent - Life and Style' article claim that she has a firm commitment to her Eras Tour schedule?",
+        "yes",
+        "no"
+    ],
+    [
+        137,
+        "null_query",
+        "Considering the information from a Times of India article detailing the infrastructure projects planned for the city and a Hindustan Times report on the environmental challenges faced by Greater Mumbai, which single letter represents both the initial of a key official overseeing the new metro project and the first letter of a rare species mentioned as being at risk due to urban expansion?",
+        "m",
+        "insufficient information"
+    ],
+    [
+        139,
+        "null_query",
+        "Considering the information from an article in The Astrophysical Journal and a report by Space.com on Solar Analogs, which star, identified as a close match to our Sun in terms of spectral type and age according to The Astrophysical Journal, was also observed by the Kepler Space Telescope as mentioned by Space.com, and has a name that starts with the same letter as the galaxy we live in?",
+        "hd 189733",
+        "insufficient information"
+    ],
+    [
+        140,
+        "temporal_query",
+        "After the Sporting News report on Tyreek Hill's chances of achieving 2,000-plus receiving yards published on December 5, 2023, and the Sporting News report on Tyreek Hill being the league's leading receiver published on December 7, 2023, was there a change in the portrayal of Tyreek Hill's performance?",
+        "insufficient information",
+        "no"
+    ],
+    [
+        143,
+        "null_query",
+        "Considering the information from an article by The Guardian and another by Forbes about Oleg Fomenko, which company did he found that is mentioned in both articles and also received significant investment from a major venture capital firm as reported by The Guardian?",
+        "farfetch",
+        "insufficient information"
+    ],
+    [
+        148,
+        "comparison_query",
+        "Does 'The Sydney Morning Herald' suggest that the US economy is accelerating past an optimal level to prevent a recession, while also reporting a prediction by Paul Tudor Jones that the United States economy will enter into a recession early next year?",
+        "yes",
+        "no"
+    ],
+    [
+        149,
+        "comparison_query",
+        "Does the Engadget article on the Artificial Intelligence Advancement Act of 2023 suggest that the act will not initiate reports on AI regulation and data sharing, while the other Engadget article on the executive order implies that the new reporting requirement will not impact existing AI models and AI companies due to a high threshold for enforcement?",
+        "yes",
+        "no"
+    ],
+    [
+        150,
+        "null_query",
+        "Considering the information from a New York Times article and a Wall Street Journal report on Ryan McInerney, what is the first letter of the city where the company he leads is headquartered, which also announced a significant financial technology investment as per the New York Times, and is facing regulatory scrutiny as mentioned in the Wall Street Journal?",
+        "affirm",
+        "insufficient information"
+    ],
+    [
+        151,
+        "comparison_query",
+        "Does the article from 'The Independent - Life and Style' on the impact of sleep reduction on the immune system align with the same publication's article on the increased risk of insomnia in women due to hormonal differences in terms of the influence of sleep quality on health?",
+        "insufficient information",
+        "yes"
+    ],
+    [
+        153,
+        "comparison_query",
+        "Did the TechCrunch article indicate that Google's release of the Gemini Pro model was comprehensive and on par with the full Gemini Ultra model, while the other TechCrunch article and the article from The Age both imply misconduct on Google's part, with the former accusing Google of anticompetitive behavior towards news publishers and the latter suggesting a general acceptance of foul play allegations against Google?",
+        "yes",
+        "no"
+    ],
+    [
+        155,
+        "null_query",
+        "Considering the information from a CNBC article discussing the latest trends in the credit services industry and a Bloomberg report on the financial performance of major credit service companies, which CEO, mentioned in both articles, has led their company to outperform market expectations in the last quarter and also announced a strategic partnership with a fintech startup focused on blockchain technology?",
+        "michael crouse",
+        "insufficient information"
+    ],
+    [
+        156,
+        "comparison_query",
+        "Did the 'Sporting News' article claim that the Bears' offense sacked Joshua Dobbs, while the 'Yardbarker' article discusses the Baltimore Ravens defense's ranking in points scored per game and total yards in the current NFL season?",
+        "yes",
+        "no"
+    ],
+    [
+        157,
+        "comparison_query",
+        "Do the articles from Sporting News discussing bonuses for 'New users of sportsbooks' and 'New customers of sportsbooks' agree on the provision of a welcome bonus upon account registration with a sportsbook?",
+        "insufficient information",
+        "yes"
+    ],
+    [
+        158,
+        "null_query",
+        "Considering the information from an ESPN article discussing Ross Atkins' strategy for player acquisition and a Sports Illustrated piece analyzing his approach to team development, which position, represented by a single character, did Ross Atkins prioritize strengthening during the off-season?",
+        "c",
+        "insufficient information"
+    ],
+    [
+        159,
+        "null_query",
+        "Considering the information from an article in The Guardian about Heather Knight's performance in the recent series and an ESPN article discussing her career milestones, which team did Heather Knight score a century against in the series that also happens to be the same team she made her international debut against?",
+        "england womens cricket team",
+        "insufficient information"
+    ],
+    [
+        160,
+        "null_query",
+        "Considering the information from an article in The Economic Times about Dunzo's latest funding round and a piece from Business Standard detailing Dunzo's expansion plans into new cities, which city, starting with the letter 'B', is both a location where Dunzo has recently expanded its services and is also the city where one of its new investors is headquartered?",
+        "bangalore",
+        "insufficient information"
+    ],
+    [
+        161,
+        "temporal_query",
+        "Between the TechCrunch report on Sam Bankman-Fried's trial and the subsequent report by the same source on the prosecution's allegations against him, was there consistency in the portrayal of the charges he is facing?",
+        "insufficient information",
+        "yes"
+    ],
+    [
+        162,
+        "temporal_query",
+        "Was there no change in the portrayal of Sam Altman's professional conduct between the TechCrunch report on Sam Altman's involvement with a teen's AI startup published on October 7, 2023, and the TechCrunch report suggesting Sam Altman was being fully truthful with the board published on November 18, 2023?",
+        "insufficient information",
+        "no"
+    ],
+    [
+        163,
+        "null_query",
+        "Considering the features highlighted in an article from The Verge and the sales performance discussed in a report by Bloomberg, which model of the iPhone 14 series, specifically mentioned as having a larger display than its predecessor in The Verge and noted for unexpectedly low consumer demand in Bloomberg, is identified by a single alphanumeric character?",
+        "n",
+        "insufficient information"
+    ],
+    [
+        164,
+        "comparison_query",
+        "Does the article from The Age suggest that the economic conditions of people have worsened, impacting the middle class and their shopping habits, in contrast to Engadget's focus on providing Engadget readers with updates on Black Friday deals without discussing the economic conditions?",
+        "no",
+        "yes"
+    ],
+    [
+        165,
+        "inference_query",
+        "What is the common term for the entities that may change their betting lines based on news or sentiment about a team's chances, can refund bets for weather-suspended games depending on their rules, profit from odds and lines regardless of the outcomes, and adjust NBA Rookie of the Year betting lines according to the information they gather, as reported by Sporting News?",
+        "bookmakers",
+        "sportsbooks"
+    ],
+    [
+        169,
+        "temporal_query",
+        "Between the TechCrunch article on Google's Gemini and its performance claims, and the TechCrunch report on the class action antitrust suit against Google, was there a change in the portrayal of Google's impact on the industry?",
+        "insufficient information",
+        "yes"
+    ],
+    [
+        171,
+        "temporal_query",
+        "Was there no change in the assessment of Tyreek Hill's likelihood to reach the milestone of 2,000 receiving yards for the season between the Sporting News report published after December 5, 2023, and the CBSSports.com report on his required average yards per game to achieve his goal?",
+        "insufficient information",
+        "no"
+    ],
+    [
+        173,
+        "comparison_query",
+        "Does 'The Verge' article suggest that Sam Bankman-Fried set withdrawal permissions based on FTX's total trading revenue, while 'Fortune' and 'TechCrunch' articles focus on the jury's determination of his truthfulness and allegations of committing fraud for personal gain, respectively, without mentioning specific operational practices like withdrawal permissions?",
+        "no",
+        "yes"
+    ],
+    [
+        175,
+        "comparison_query",
+        "Does \"The Sydney Morning Herald\" attribute the recommendation of \"Prisoner's Daughter\" to the same basis as \"The New York Times\" attributes the ranking of \"The Crimson Tide college football team,\" with both recommendations being based on talent involved?",
+        "insufficient information",
+        "yes"
+    ],
+    [
+        176,
+        "comparison_query",
+        "Does the Sporting News article cast the Michigan Wolverines football team in a similar negative role as The Verge article portrays Google in the context of the Epic v. Google trial?",
+        "no",
+        "yes"
+    ],
+    [
+        177,
+        "null_query",
+        "Considering the information from an ESPN article and a BBC Sports report on Shabnim Ismail, which team did she represent when she achieved a career milestone mentioned in ESPN and also faced an opponent highlighted in the BBC Sports article in a significant tournament?",
+        "south africa national team",
+        "insufficient information"
+    ],
+    [
+        180,
+        "comparison_query",
+        "Does the Sporting News article stating the Los Angeles Rams and Seattle Seahawks as the worst candidates for the wild-card spots align with the same publication's claim regarding the impact of a Minnesota Vikings loss on the wild card race standings for the Los Angeles Rams, New Orleans Saints, and Green Bay Packers?",
+        "yes",
+        "no"
+    ],
+    [
+        181,
+        "temporal_query",
+        "After The Verge reported on September 26, 2023, that Apple defended its Google Search deal by stating there wasn't a valid alternative, and TechCrunch later reported on November 13, 2023, that Google spent $26.3 billion in 2021 to secure its position as the default search engine on various platforms, does the rationale provided by Apple for its Google Search deal remain consistent with Google's aggressive spending to maintain default search engine status across platforms? (The Verge/TechCrunch)",
+        "insufficient information",
+        "yes"
+    ],
+    [
+        182,
+        "comparison_query",
+        "Does 'The Guardian' article suggest that Manchester United has been successful in their recent matches, in contrast to the 'Sporting News' article which implies that Manchester United has been eliminated from European competitions?",
+        "no",
+        "yes"
+    ],
+    [
+        186,
+        "inference_query",
+        "Which team, known for their safe handling throughout a World Cup and previously defeated by Argentina in Sydney in 2020, was involved in a controversial and dramatic final that was influenced by blitz defence and wet conditions according to articles from 'The Roar | Sports Writers Blog'?",
+        "ireland",
+        "all blacks"
+    ],
+    [
+        188,
+        "temporal_query",
+        "After the report by Business Today | Latest Stock Market And Economy News India on October 7, 2023, regarding a surprise attack on Israel, and the subsequent report by Fortune on October 13, 2023, concerning the lifting of the blockade of Gaza and the warning issued to residents, is the sequence of events reported by both news sources regarding Israel's security and humanitarian situation consistent?",
+        "yes",
+        "no"
+    ],
+    [
+        189,
+        "temporal_query",
+        "After the Polygon report on the Steam Deck hardware updates published at 18:00:00 on November 9, 2023, and the Engadget review of the Steam Deck OLED published at 18:00:38 on the same day, was there agreement between Polygon and Engadget on the immediate availability of the Steam Deck OLED units from Valve?",
+        "insufficient information",
+        "yes"
+    ],
+    [
+        190,
+        "inference_query",
+        "Which sports betting platform, featured in articles by both Sporting News and CBSSports.com, provides a cash-out option to settle bets early and offers new customers up to $1000 in bonus bets if their first bet loses, including expected promotions for new sign-ups in Vermont?",
+        "betmgm",
+        "caesars sportsbook"
+    ],
+    [
+        192,
+        "temporal_query",
+        "Was there inconsistency in the portrayal of the accusations against Sam Bankman-Fried between the TechCrunch report on Sam Bankman-Fried's trial published on October 1, 2023, and the TechCrunch report on the allegations against Sam Bankman-Fried published on October 7, 2023?",
+        "insufficient information",
+        "no"
+    ],
+    [
+        193,
+        "comparison_query",
+        "Do the articles from The Verge and TechCrunch both suggest that interactive activities, such as dressing up for parents of children interested in Pokémon and conversing with Alexa, are methods to engage with children, or do they propose different engagement strategies?",
+        "both articles suggest that engaging with children can involve interactive activities such as conversing with alexa but they do not mention dressing up for pokémon therefore they propose similar engagement strategies centered around interactive technology rather than different methods",
+        "yes"
+    ],
+    [
+        195,
+        "inference_query",
+        "Which company, covered by both TechCrunch and The Verge, is not only claimed to have developed an AI model with superior architecture that rivals GPT-4 but also has been accused of altering the internet's appearance and harming news publishers' bottom lines through anticompetitive practices?",
+        "anthropic",
+        "google"
+    ],
+    [
+        196,
+        "comparison_query",
+        "Does the article from The Verge suggest that Apple's choice of Google as a search engine provider was due to a lack of alternatives, while the TechCrunch articles allege that Google's practices in app distribution, payment processing, and news publishing are anticompetitive, implying that there are alternatives that are being suppressed by Google's behavior?",
+        "verge article suggests that apples choice of google as search engine was due to lack of good alternatives while techcrunch articles allege that googles practices are anticompetitive and imply that alternatives exist but are being suppressed by google",
+        "yes"
+    ],
+    [
+        197,
+        "null_query",
+        "Considering the information from an article in The New York Times about Ron Wyden's stance on privacy issues and a piece from The Washington Post detailing his involvement in tax reform, what single letter represents the state that Ron Wyden represents in the U.S. Senate?",
+        "o",
+        "insufficient information"
+    ],
+    [
+        199,
+        "comparison_query",
+        "Does 'The Sydney Morning Herald' suggest that the US economy is at a dangerously rapid slowing pace that could lead to a recession, in contrast to 'The Age' which implies that a government shutdown could increase the risk of a recession in the US economy?",
+        "insufficient information",
+        "no"
+    ]
+]

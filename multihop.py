@@ -172,12 +172,12 @@ def run_ircot_multihop(query: str, retriever: EnsembleRetriever, chains: tuple, 
 
         # Step 1: Generate a sub-question
         subq = subq_chain.invoke({"question": current_query}).content.strip()
-        print(f"🧠 Sub-question: {subq}")
+        #print(f"🧠 Sub-question: {subq}")
 
         # Step 2: Retrieve relevant documents for the sub-question
         retrieved_docs = retriever.invoke(subq)
         context = "\n\n".join([d.page_content for d in retrieved_docs])
-        print(f"📄 Retrieved context:\n{context}...")  # Print first 500 chars of context
+        # print(f"📄 Retrieved context:\n{context}...")  # Print first 500 chars of context
         
         # Step 3: Reason about the next step or decide to answer
         next_query = reasoning_chain.invoke({
@@ -208,7 +208,6 @@ def run_ircot_multihop(query: str, retriever: EnsembleRetriever, chains: tuple, 
     #print("\n✅ Final Answer:", final_answer)
     return final_answer
 
-
 # --- Main Execution Block ---
 
 # This block will only run when the script is executed directly
@@ -225,8 +224,9 @@ if __name__ == "__main__":
     all_chains = create_chains(llm)
 
     f1_scores = []
+    false_question = []
     # 4. Test with 100 questions
-    for i in range(54,55):
+    for i in range(100,200):
         query = questions[i]
         ground_truth = normalize_answer(answers[i])
         
@@ -238,11 +238,17 @@ if __name__ == "__main__":
         )
         predicted_answer = normalize_answer(predicted_answer)
         #print("🎯 Ground truth answer:", ground_truth)
+        
         f1_scores.append(compute_f1_score(predicted_answer, ground_truth))
         if(normalize_answer(predicted_answer) !=  normalize_answer(ground_truth)):
             print(f'Question {i} false, question type is {question_types[i]}.')
             print('Predicted answer:', predicted_answer)
             print('Ground truth:', ground_truth)
+            false_question.append([i, question_types[i], query, predicted_answer, ground_truth])
         print(f'✅ Question {i} done.')
+    
     avg = sum(f1_scores) / len(f1_scores)
     print(f"Average F1-score: {avg:.2f}")
+    #save false questions to a file
+    with open('false_questions.json', 'w', encoding='utf-8') as f:
+        json.dump(false_question, f, ensure_ascii=False, indent=4)
